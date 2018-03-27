@@ -30,7 +30,7 @@ class CreateTask extends React.Component {
   }
   onSave = (e) => {
     e.preventDefault();
-    console.log(this.props);
+
     const taskSave = {
       title: this.state.title,
       description: this.state.description,
@@ -94,27 +94,6 @@ class CreateTask extends React.Component {
               />
             </div>
 
-            {/* <div className="form-group">
-              <label htmlFor="selectCategory">
-                Category
-              </label>
-              <select
-                value={category}
-                onChange={e =>
-                  this.setState({
-                    category: e.target.value,
-                  })
-                }
-                className="form-control"
-                id="selectCategory"
-              >
-                {this.props.status.map(statusSel => (
-                  <option key={statusSel} value={statusSel}>
-                    {statusSel}
-                  </option>
-                ))}
-              </select>
-            </div> */}
             <div className="form-group">
               <DivButtons>
                 <button

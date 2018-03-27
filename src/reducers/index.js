@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
 import status from './status';
-import tasks from './task';
+import tasks from './tasks';
 
 
 export default combineReducers({
