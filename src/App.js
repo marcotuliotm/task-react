@@ -6,20 +6,13 @@ import { withStyles } from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
 import Toolbar from 'material-ui/Toolbar';
-import List from 'material-ui/List';
-import Typography from 'material-ui/Typography';
+import AddIcon from 'material-ui-icons/Add';
 import IconButton from 'material-ui/IconButton';
 import Hidden from 'material-ui/Hidden';
-import Divider from 'material-ui/Divider';
 import MenuIcon from 'material-ui-icons/Menu';
 import withRoot from './withRoot';
-import MenuItem from './components/menuItem';
-// import PostList from './components/postList';
-// import PostInfo from './components/postInfo';
-// import ChartPost from './components/chart';
 import { StatusAction } from './actions/status';
 import { TaskAction } from './actions/task';
-import CardView from './components/card';
 import Board from './components/board';
 
 
@@ -29,6 +22,7 @@ const styles = theme => ({
   root: {
     width: '100%',
     height: '100%',
+    'min-width': '680px',
     marginTop: theme.spacing.unit * 3,
     zIndex: 1,
     overflow: 'hidden',
@@ -80,6 +74,7 @@ const styles = theme => ({
 class ResponsiveDrawer extends React.Component {
   state = {
     mobileOpen: false,
+    save: false,
   };
 
   componentWillMount() {
@@ -88,6 +83,10 @@ class ResponsiveDrawer extends React.Component {
   }
 
 
+  onCloseSave= () => {
+    this.setState({ save: false });
+  }
+
   handleDrawerToggle = () => {
     this.setState({ mobileOpen: !this.state.mobileOpen });
   };
@@ -95,39 +94,11 @@ class ResponsiveDrawer extends React.Component {
 
   render() {
     const {
-      classes, theme, categories, posts,
+      classes,
     } = this.props;
 
     const drawer = (
-      <div>
-        <div className={classes.drawerHeader} />
-        <Divider />
-        <List>
-          <MenuItem href="/chart" >
-            Chart
-          </MenuItem>
-          <Divider />
-        </List>
-        <List>
-          <MenuItem href="/" >
-            All
-          </MenuItem>
-          <Divider />
-        </List>
-
-        {/* {categories.map(category => (
-          <div key={category.name}>
-            <List >
-              <MenuItem href={`/${category.path}`}>
-                {category.name}
-              </MenuItem>
-              <Divider />
-            </List>
-          </div>
-        ))} */}
-
-
-      </div>
+      <div />
     );
 
 
@@ -146,27 +117,16 @@ class ResponsiveDrawer extends React.Component {
                   >
                     <MenuIcon />
                   </IconButton>
-                  <Typography variant="title" color="inherit" noWrap>
-                    Task
-                  </Typography>
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={() => this.setState({ save: true })}
+                  >
+                  New Task  <AddIcon />
+                  </button>
                 </Toolbar>
               </AppBar>
-              <Hidden mdUp>
-                <Drawer
-                  variant="temporary"
-                  anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                  open={this.state.mobileOpen}
-                  classes={{
-                    paper: classes.drawerPaper,
-                  }}
-                  onClose={this.handleDrawerToggle}
-                  ModalProps={{
-                    keepMounted: true, // Better open performance on mobile.
-                  }}
-                >
-                  {drawer}
-                </Drawer>
-              </Hidden>
+
               <Hidden smDown implementation="css">
                 <Drawer
                   variant="permanent"
@@ -184,47 +144,11 @@ class ResponsiveDrawer extends React.Component {
                   path="/"
                   render={({ match }) => (
                     <div>
-                      <Board />
+                      <Board onCloseSave={this.onCloseSave} save={this.state.save} />
                     </div>
                   )}
                 />
 
-                {/* <Route
-                  exact
-                  path="/chart"
-                  render={({ match }) => (
-                    <ChartPost posts={posts} />
-                  )}
-                />
-
-                <Route
-                  exact
-                  path="/"
-                  render={({ match }) => (
-                    <PostList posts={posts} />
-                  )}
-                />
-
-                <Route
-                  exact
-                  path="/:category/:id"
-                  component={PostInfo}
-                />
-
-                {this.props.categories.map(category => (
-                  <div key={category.path} >
-                    <Route
-                      exact
-                      path={`/${category.path}`}
-                      render={({ match }) => (
-                        <PostList
-                          posts={posts}
-                          category={category.name}
-                        />
-                    )}
-                    />
-                  </div>
-                ))} */}
 
               </main>
             </div>
@@ -238,17 +162,14 @@ class ResponsiveDrawer extends React.Component {
 
 ResponsiveDrawer.propTypes = {
   classes: PropTypes.object.isRequired,
-  theme: PropTypes.object.isRequired,
   fetchStatus: PropTypes.func.isRequired,
-  categories: PropTypes.array.isRequired,
   fetchAllTasks: PropTypes.func.isRequired,
-  posts: PropTypes.array.isRequired,
 };
 
-function mapStateToProps({ categories, posts }) {
+function mapStateToProps({ status, tasks }) {
   return {
-    categories,
-    posts,
+    status,
+    tasks,
   };
 }
 

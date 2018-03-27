@@ -11,6 +11,7 @@ const tasks = (state = [], action) => {
     case GET_ALL_TASKS_SUCCESS:
       return action.tasks;
     case CREATE_TASK_SUCCESS:
+    action.task.id = action.id; // eslint-disable-line
       return [
         ...state,
         action.task,
@@ -34,6 +35,7 @@ const task = (state = {}, action) => {
       }
       return {
         ...action.task,
+        version: action.version,
       };
     default:
       return state;

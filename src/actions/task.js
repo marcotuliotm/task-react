@@ -7,9 +7,9 @@ import {
 } from './constants';
 
 
-const getAllTasksSuccess = posts => ({
+const getAllTasksSuccess = tasks => ({
   type: GET_ALL_TASKS_SUCCESS,
-  posts,
+  tasks,
 });
 
 
@@ -19,15 +19,17 @@ const deleteTaskSuccess = id => ({
 });
 
 
-const editTaskSuccess = post => ({
+const editTaskSuccess = (task, version) => ({
   type: EDIT_TASK_SUCCESS,
-  post,
+  task,
+  version,
 });
 
 
-const createTaskSuccess = post => ({
+const createTaskSuccess = (id, task) => ({
   type: CREATE_TASK_SUCCESS,
-  post,
+  task,
+  id,
 });
 
 export class TaskAction {
@@ -47,14 +49,14 @@ export class TaskAction {
     }).catch(err => err);
   };
 
-  static editTask = (id, post) => (dispatch) => {
-    TaskAPI.editTask(id, post).then(({ data }) => {
-      dispatch(editTaskSuccess(data));
+  static editTask = (id, task) => (dispatch) => {
+    TaskAPI.editTask(id, task).then(({ data }) => {
+      dispatch(editTaskSuccess(task, data));
     }).catch(err => err);
   };
-  static saveTask = post => (dispatch) => {
-    TaskAPI.saveTask(post).then(({ data }) => {
-      dispatch(createTaskSuccess(data));
+  static saveTask = task => (dispatch) => {
+    TaskAPI.saveTask(task).then(({ data }) => {
+      dispatch(createTaskSuccess(data, task));
     }).catch(err => err);
   };
 }
