@@ -1,3 +1,15 @@
+## Basic Task
+
+Demo: https://taskreact.herokuapp.com/
+
+## Server
+  Swagger: https://springtasktm.herokuapp.com/swagger-ui.html#!/
+  GitHub: https://github.com/marcotuliotm/springdemo
+
+## Start Front
+   - `yarn install`
+   - `yarn start`
+
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).
 
 Below you will find some information on how to perform common tasks.<br>
